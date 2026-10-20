@@ -99,7 +99,7 @@
     & > .title {
         position: relative;
         color: white;
-        font: var(--font-h1);
+        /*font: var(--font-h1);*/
         text-align: center;
     }
 }
