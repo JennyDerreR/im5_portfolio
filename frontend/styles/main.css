@@ -22,7 +22,7 @@
 /* Styling of all available layout components. */
 [data-layout="header"] {
     padding: var(--gap-around);
-    background-color: var(--color-accent);
+    background-color: #0A0A0BF0;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -42,14 +42,14 @@
 
             a  {
                 text-decoration: none;
-                color: var(--color-white);
+                color: var(--secondary);
             }
         }
     }
 }
 [data-layout="footer"] {
     padding: var(--gap-around);
-    background-color: var(--color-accent);
+    background-color: var(--background);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -65,7 +65,7 @@
 
             a  {
                 text-decoration: none;
-                color: var(--color-white);
+                color: var(--secondary);
             }
         }
     }
