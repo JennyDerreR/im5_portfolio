@@ -1,9 +1,11 @@
 /*--- My Font ---*/
-/*regular*/
-/*@font-face {
+
+
+/*überschriften*/
+
+@font-face {
     font-family: 'Name';
     font-style: normal;
     font-weight: 400;
     font-display: swap;
     src: url('../assets/fonts/filename.woff2') format('woff2');
-}*/

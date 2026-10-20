@@ -1,16 +1,22 @@
 @import "_fonts.css";
 @import "_resets.css";
 
-/* Definition of base styles. */
+/* Farben, H's und Abstände */
 :root {
-    /* colors */
-    --color-white: #ffffff;
-    --color-black: #000000;
-    --color-accent: #ff0000;
-    /* gaps & sizes */
+
+    /* Farben */
+    --background: #0A0A0B;
+    --cards: #161618;
+    --primary: #EDEDED;
+    --secondary: #8A8580;
+    --accent: #8FA07E;
+    --lines: #262628;
+
+    /* H's */
+    --h1: normal 64px/120% serif;
+
+    /* Abstände */
     --gap-around: 40px;
-    /* fonts */
-    --font-h1: normal 64px/120% serif;
 }
 
 /* Styling of all available layout components. */
