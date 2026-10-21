@@ -1,6 +1,8 @@
 @import "_fonts.css";
 @import "_resets.css";
 
+/*---------------------------------------GLOBAL---------------------------------------*/
+
 /* Farben, H's und Abstände */
 :root {
 
@@ -16,6 +18,8 @@
     --h1: normal 64px/120% serif;
 
 }
+
+/*---------------------------------------HEADER---------------------------------------*/
 
 /* Styling of all available layout components. */
 [data-layout="header"] {
@@ -51,6 +55,7 @@
     width: auto;    /* Breite passt sich proportional an */
 }
 
+/*---------------------------------------FOOTER---------------------------------------*/
 
 footer p {
     color: var(--secondary);
