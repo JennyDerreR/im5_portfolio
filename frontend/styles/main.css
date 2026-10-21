@@ -15,13 +15,11 @@
     /* H's */
     --h1: normal 64px/120% serif;
 
-    /* Abstände */
-    --gap-around: 40px;
 }
 
 /* Styling of all available layout components. */
 [data-layout="header"] {
-    padding: var(--gap-around);
+    padding: 20px 10px 20px 10px;
     background-color: #0A0A0BF0;
     position: sticky;
     top: 0;
@@ -47,6 +45,18 @@
         }
     }
 }
+
+.logo {
+    height: 100px;   /* gewünschte Höhe */
+    width: auto;    /* Breite passt sich proportional an */
+}
+
+
+footer p {
+    color: var(--secondary);
+    font-size: 14px;
+}
+
 [data-layout="footer"] {
     padding: var(--gap-around);
     background-color: var(--background);
@@ -70,6 +80,7 @@
         }
     }
 }
+
 
 /* Styling of all available page components. */
 [data-page] {

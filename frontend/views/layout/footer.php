@@ -4,7 +4,7 @@ js_log($menu);
 ?>
 
 <footer data-layout="footer">
-    <mark>Hier kommmt der Text</mark>
+    <p>Hier kommmt der Text</p>
     <nav class="nav-container">
       <ul class="nav">
         <?php foreach ($menu as $item): ?>
@@ -15,6 +15,5 @@ js_log($menu);
           </li>
         <?php endforeach; ?>
       </ul>
-
     </nav>
 </footer>
