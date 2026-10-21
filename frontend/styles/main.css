@@ -3,7 +3,7 @@
 
 /*---------------------------------------GLOBAL---------------------------------------*/
 
-/* Farben, H's und Abstände */
+/* Farben, Schriftarten und Abstände */
 :root {
 
     /* Farben */
@@ -14,8 +14,19 @@
     --accent: #8FA07E;
     --lines: #262628;
 
+    /* Schriftarten */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Lora', serif;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+
     /* H's */
     --h1: normal 64px/120% serif;
+
+    --h5: normal 26px/100% 'Lora', serif;
 
 }
 
@@ -40,11 +51,14 @@
             flex-direction: row;
             justify-content: flex-end;
             align-self: center;
-            gap: 10px;
+            gap: 50px;
+            margin-right: 60px;
 
             a  {
-                text-decoration: none;
+                font: var(--h5);
                 color: var(--secondary);
+                text-decoration: none;
+
             }
         }
     }
@@ -53,6 +67,7 @@
 .logo {
     height: 100px;   /* gewünschte Höhe */
     width: auto;    /* Breite passt sich proportional an */
+    margin-left: 20px;
 }
 
 /*---------------------------------------FOOTER---------------------------------------*/
