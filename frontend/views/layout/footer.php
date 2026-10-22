@@ -4,7 +4,7 @@ js_log($menu);
 ?>
 
 <footer data-layout="footer">
-    <p>Hier kommmt der Text</p>
+    <p>© Jennifer Derrer. Alle Rechte vorbehalten.</p>
     <nav class="nav-container">
       <ul class="nav">
         <?php foreach ($menu as $item): ?>
