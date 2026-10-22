@@ -1,8 +1,16 @@
 <?php
 $project = get_project_by_id(get_the_ID());
+
+js_log($project);
 ?>
 
 <main>
+    <p class="category">
+        <?php foreach ($project['project_categories'] as $category) : ?>
+            <span class="category-item"><?= $category['title'] ?></span>
+        <?php endforeach; ?>
+    </p>
+
     <h1><?= $project['title'] ?></h1>
 
     <?php if ($project['medium']): ?>

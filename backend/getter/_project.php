@@ -2,7 +2,6 @@
 
 function get_project_by_id(int $id): array
 {
-
     //Daten sammeln
     $title         = get_the_title($id);
     $image_id      = carbon_get_post_meta($id, 'image');
@@ -20,6 +19,12 @@ function get_project_by_id(int $id): array
     $terms         = get_the_terms($id, 'project_category');
     $category      = (is_array($terms) && $terms) ? $terms[0] : null;
 
+    //Kategorien laden
+    $project_categories = array_map(
+        fn($term) => ['title' => $term->name, 'slug' => $term->slug],
+        is_array($terms) ? $terms : []
+    );
+
     //Daten ausgeben
     return [
         'title'       => $title,
@@ -35,5 +40,6 @@ function get_project_by_id(int $id): array
         'category'    => $category ? ['slug' => $category->slug, 'name' => $category->name] : null,
         'link'        => $external_link ?: get_permalink($id),
         'is_external' => !empty($external_link),
+        'project_categories'  => $project_categories,
     ];
 }
