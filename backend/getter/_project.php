@@ -18,6 +18,8 @@ function get_project_by_id(int $id): array
     $sm_post       = carbon_get_post_meta($id, 'sm_post');
     $terms         = get_the_terms($id, 'project_category');
     $category      = (is_array($terms) && $terms) ? $terms[0] : null;
+    $link          = get_permalink($id);
+
 
     //Kategorien laden
     $project_categories = array_map(
@@ -41,5 +43,6 @@ function get_project_by_id(int $id): array
         'link'        => $external_link ?: get_permalink($id),
         'is_external' => !empty($external_link),
         'project_categories'  => $project_categories,
+        'link' => $link
     ];
 }
