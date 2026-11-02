@@ -14,22 +14,32 @@
     --accent: #8FA07E;
     --lines: #262628;
 
-    /* Schriftarten */
-    h1, h2, h3, h4, h5, h6 {
-        font-family: 'Lora', serif;
-    }
-
-    body {
-        font-family: 'Inter', sans-serif;
-    }
-
     /* H's */
-    --h1: normal 64px/120% serif;
-
-    --h5: normal 20px/100% 'Lora', serif;
-    --h6: normal 18px/100% 'Lora', serif;
-
+    --h1: 600 4.5rem 'Lora', serif;        /* 64px */
+    --h2: 3rem 'Lora', serif;      /* 56px */
+    --h3: 2.25rem 'Lora', serif;        /* 48px */
+    --h4: 2rem 'Lora', serif;      /* 40px */
+    --h5: 1.5rem/1 'Lora', serif;       /* 20px */
+    --h6: 100 1.25rem/1 'Lora', serif;      /* 18px */
 }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background);
+    color: var(--primary);
+}
+
+/* Schriftarten */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lora', serif;
+}
+
+h1 { font: var(--h1);}
+h2 { font: var(--h2);}
+h3 { font: var(--h3);}
+h4 { font: var(--h4);}
+h5 { font: var(--h5);}
+h6 { font: var(--h6);}
 
 /*---------------------------------------HEADER---------------------------------------*/
 
@@ -90,9 +100,9 @@
 }
 
 .logo {
-    height: 65px;   /* gewünschte Höhe */
-    width: auto;    /* Breite passt sich proportional an */
-    margin-left: 18px;
+    height: clamp(3.25rem, 2rem + 2.25vw, 4.75rem);   /* 52px bis 76px */
+    width: auto;
+    margin-left: 1.125rem;                             /* vorher 18px */
 }
 
 /*---------------------------------------FOOTER---------------------------------------*/
@@ -144,12 +154,121 @@ footer p {
     height: 100%;
 }
 
+/*---------------------------------TEMPLATE PROJEKTSEITE---------------------------------------*/
+
+[data-page="project"] {
+    --media-width: 72rem;   /* NEU: Breite für Video, Bild und Audio */
+    --text-width: 45rem;    /* NEU: Lesespalte für den Text */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0;
+    padding-inline: clamp(1rem, 4vw, 3rem);   /* NEU: Luft zum Rand */
+
+    .category {
+        font: var(--h6);
+    }
+
+    h1 {
+        margin-bottom: 25px;
+    }
+
+    /* NEU: vorher "h3", jetzt nur der Lead (Klasse "lead" im PHP) */
+    .lead {
+        padding: 0 20px;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    /* NEU: gemeinsamer Platz für Video oder Bild (ersetzt .videoplayer) */
+    .project-media {
+        width: min(100%, var(--media-width));
+        margin-bottom: 40px;
+    }
+
+    .project-media--video iframe {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        border-radius: 12px;
+    }
+
+    .project-media--image img {
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 80vh;        /* hohe Bilder (4:5) sprengen den Bildschirm nicht */
+        margin-inline: auto;
+        border-radius: 12px;
+    }
+
+    /* NEU: Audio */
+    .project-audio {
+        zoom: 1.3;
+        width: min(80%, var(--media-width));
+        margin-bottom: 30px;
+        color-scheme: dark;      /* sollte den weissen Player abdunkeln, je nach Browser */
+    }
+
+    /* NEU: Text mit den Bildern, die du im Editor einfügst */
+    .project-text {
+        display: flow-root;      /* hält Bilder mit Textumfluss im Block */
+        width: min(100%, var(--text-width));
+        margin-bottom: 40px;
+        font-size: 1.125rem;
+        line-height: 1.7;
+
+        p { margin-bottom: 1.25em; }
+
+        /* Zwischentitel aus dem Editor, kleiner als die Seitentitel */
+        h2, h3, h4 { margin: 2.5rem 0 1rem; text-align: left; }
+        h2 { font-size: 2rem; }
+        h3 { font-size: 1.625rem; }
+        h4 { font-size: 1.375rem; }
+
+        a { color: var(--accent); text-decoration: underline; text-underline-offset: 0.2em; }
+
+        ul, ol { padding-left: 1.5rem; margin-bottom: 1.25em; }
+        ul { list-style: disc; }
+        ol { list-style: decimal; }
+
+        blockquote {
+            margin: 2rem 0;
+            padding-left: 1.25rem;
+            border-left: 2px solid var(--accent);
+            font: var(--h5);
+            line-height: 1.5;
+        }
+
+        /* Bilder im Text */
+        img { display: block; max-width: 100%; height: auto; margin: 2rem auto; border-radius: 12px; }
+        .alignleft  { float: left;  margin: 0.25rem 1.5rem 1rem 0; max-width: 50%; }
+        .alignright { float: right; margin: 0.25rem 0 1rem 1.5rem; max-width: 50%; }
+        .aligncenter { margin-inline: auto; }
+
+        /* Bildunterschriften */
+        .wp-caption { width: auto !important; max-width: 100%; }   /* WordPress schreibt eine feste Breite ins HTML */
+        .wp-caption img { margin: 0 auto 0.5rem; }
+        .wp-caption-text, figcaption {
+            font-size: 0.875rem;
+            color: var(--secondary);
+            text-align: center;
+        }
+    }
+
+}
+
 /* Styling of all available module components. */
 [data-module] {
     overflow: clip;
     position: relative;
     width: 100%;
 }
+
 [data-module="example"] {
     display: flex;
     flex-direction: column;
@@ -186,6 +305,19 @@ footer p {
 /* Styling of all available teaser components. */
 
 /* Styling of utility classes, can be added anywhere in the project. */
+
+/* BREAKPOINT: 4xl (ab hier wird der Inhalt begrenzt und nur noch aussen herum erweitert) */
+@media (min-width: 100rem) {
+    [data-page="project"] {
+        max-width: 100rem;
+        margin-inline: auto;
+    }
+
+    [data-layout="header"],
+    [data-layout="footer"] {
+        padding-inline: calc((100% - 100rem) / 2 + 1.25rem);
+    }
+}
 
 /* BREAKPOINT: 3xl */
 @media (max-width: 1514px) {}

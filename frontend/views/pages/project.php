@@ -4,7 +4,7 @@ $project = get_project_by_id(get_the_ID());
 js_log($project);
 ?>
 
-<main>
+<main data-page="project">
     <p class="category">
         <?php foreach ($project['project_categories'] as $category) : ?>
             <span class="category-item"><?= $category['title'] ?></span>
@@ -13,34 +13,38 @@ js_log($project);
 
     <h1><?= $project['title'] ?></h1>
 
+    <?php if ($project['lead']): ?>
+        <h3 class="lead"><?= $project['lead'] ?></h3> <!-- NEU: Klasse "lead" -->
+    <?php endif; ?>
+
     <?php if ($project['medium']): ?>
         <p>Medium: <?= $project['medium'] ?></p>
     <?php endif; ?>
 
-    <?php if ($project['lead']): ?>
-        <p><?= $project['lead'] ?></p>
-    <?php endif; ?>
-
     <?php if ($project['video']): ?>
-        <div><?= wp_oembed_get($project['video']) ?></div>
+        <div class="project-media project-media--video"><?= wp_oembed_get($project['video']) ?></div> <!-- NEU: ein gemeinsamer Platz für Video und Bild -->
     <?php elseif ($project['image']): ?>
-        <img src="<?= $project['image']['src'] ?>" alt="<?= $project['image']['alt'] ?>">
+        <div class="project-media project-media--image"> <!-- NEU -->
+            <img src="<?= $project['image']['src'] ?>" alt="<?= $project['image']['alt'] ?>">
+        </div>
     <?php endif; ?>
 
     <?php if ($project['audio']): ?>
-        <audio controls src="<?= $project['audio'] ?>"></audio>
+        <audio class="project-audio" controls src="<?= $project['audio'] ?>"></audio> <!-- NEU: Klasse "project-audio" -->
     <?php endif; ?>
 
     <?php if ($project['text']): ?>
-        <div><?= apply_filters('the_content', $project['text']) ?></div>
+        <div class="project-text"><?= apply_filters('the_content', $project['text']) ?></div> <!-- NEU: Klasse "project-text" -->
     <?php endif; ?>
 
-    <?php foreach ($project['gallery'] as $photo): ?>
-        <img src="<?= $photo['src'] ?>" alt="<?= $photo['alt'] ?>">
-    <?php endforeach; ?>
+    <div class="project-gallery">
+        <?php foreach ($project['gallery'] as $photo): ?>
+            <img src="<?= $photo['src'] ?>" alt="<?= $photo['alt'] ?>">
+        <?php endforeach; ?>
+    </div>
 
     <?php if ($project['tasks']): ?>
-        <h3>Meine Aufgaben</h3>
+        <h4>Meine Aufgaben</h4>
         <ul>
             <?php foreach ($project['tasks'] as $task): ?>
                 <li><?= $task ?></li>
