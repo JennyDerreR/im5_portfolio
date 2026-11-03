@@ -7,7 +7,6 @@ function get_project_by_id(int $id): array
     $image_id      = carbon_get_post_meta($id, 'image');
     $image         = get_media_by_id($image_id);
     $lead          = carbon_get_post_meta($id, 'lead');
-    $text          = carbon_get_post_meta($id, 'text');
     $tasks         = array_column(carbon_get_post_meta($id, 'tasks') ?: [], 'task');
     $medium        = carbon_get_post_meta($id, 'medium');
     $external_link = carbon_get_post_meta($id, 'external_link');
@@ -16,12 +15,17 @@ function get_project_by_id(int $id): array
     $audio_id      = carbon_get_post_meta($id, 'audio');
     $audio         = $audio_id ? wp_get_attachment_url($audio_id) : null;
     $sm_post       = carbon_get_post_meta($id, 'sm_post');
-    $terms         = get_the_terms($id, 'project_category');
-    $category      = (is_array($terms) && $terms) ? $terms[0] : null;
-    $link          = get_permalink($id);
 
+    //Inhalt (Bausteine)
+    $content = array_map(function ($block) {
+        if ($block['_type'] === 'image' && !empty($block['image'])) {
+            $block['image'] = get_media_by_id((int) $block['image']);
+        }
+        return $block;
+    }, carbon_get_post_meta($id, 'content') ?: []);
 
     //Kategorien laden
+    $terms              = get_the_terms($id, 'project_category');
     $project_categories = array_map(
         fn($term) => ['title' => $term->name, 'slug' => $term->slug],
         is_array($terms) ? $terms : []
@@ -29,20 +33,18 @@ function get_project_by_id(int $id): array
 
     //Daten ausgeben
     return [
-        'title'       => $title,
-        'image'       => $image,
-        'lead'        => $lead,
-        'text'        => $text,
-        'tasks'       => $tasks,
-        'medium'      => $medium,
-        'gallery'     => $gallery,
-        'video'       => $video,
-        'audio'       => $audio,
-        'sm_post'     => $sm_post,
-        'category'    => $category ? ['slug' => $category->slug, 'name' => $category->name] : null,
-        'link'        => $external_link ?: get_permalink($id),
-        'is_external' => !empty($external_link),
-        'project_categories'  => $project_categories,
-        'link' => $link
+        'title'              => $title,
+        'image'              => $image,
+        'lead'               => $lead,
+        'content'            => $content,
+        'tasks'              => $tasks,
+        'medium'             => $medium,
+        'gallery'            => $gallery,
+        'video'              => $video,
+        'audio'              => $audio,
+        'sm_post'            => $sm_post,
+        'project_categories' => $project_categories,
+        'link'               => $external_link ?: get_permalink($id),
+        'is_external'        => !empty($external_link),
     ];
 }

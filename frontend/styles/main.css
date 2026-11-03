@@ -22,14 +22,16 @@
     --h5: 1.5rem/1 'Lora', serif;       /* 20px */
     --h6: 100 1.25rem/1 'Lora', serif;      /* 18px */
 }
-
+    /* Body */
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--background);
     color: var(--primary);
+    /* Hinter der geöffneten Grossansicht scrollt die Seite nicht mit */
+    body:has(dialog[open]) { overflow: hidden; }
 }
 
-/* Schriftarten */
+    /* Schriftarten und Grössen */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Lora', serif;
 }
@@ -158,7 +160,7 @@ footer p {
 
 [data-page="project"] {
     --media-width: 72rem;   /* NEU: Breite für Video, Bild und Audio */
-    --text-width: 45rem;    /* NEU: Lesespalte für den Text */
+    --text-width: 85rem;    /* NEU: Lesespalte für den Text */
 
     display: flex;
     flex-direction: column;
@@ -169,17 +171,19 @@ footer p {
 
     .category {
         font: var(--h6);
+        text-align: center;      /* KORRIGIERT: Spitzmarke mittig, auch wenn sie umbricht */
     }
 
     h1 {
         margin-bottom: 25px;
+        text-align: center;      /* KORRIGIERT: Titel mittig (vorher left, "align-items: left" gestrichen, das gibt es nicht) */
     }
 
     /* NEU: vorher "h3", jetzt nur der Lead (Klasse "lead" im PHP) */
     .lead {
-        padding: 0 20px;
-        margin-bottom: 40px;
-        text-align: center;
+        width: min(100%, var(--text-width));   /* KORRIGIERT: gleiche Spalte wie der Text */
+        margin-bottom: 40px;                   /* KORRIGIERT: padding 0 20px gestrichen, damit die linke Kante zum Text passt */
+        text-align: center;                      /* KORRIGIERT: vorher center */
     }
 
     /* NEU: gemeinsamer Platz für Video oder Bild (ersetzt .videoplayer) */
@@ -197,11 +201,12 @@ footer p {
     }
 
     .project-media--image img {
-        display: block;
+        display: flex;
+        flex-direction: column;
         width: auto;
         height: auto;
         max-width: 100%;
-        max-height: 80vh;        /* hohe Bilder (4:5) sprengen den Bildschirm nicht */
+        max-height: 90vh;
         margin-inline: auto;
         border-radius: 12px;
     }
@@ -212,14 +217,15 @@ footer p {
         width: min(80%, var(--media-width));
         margin-bottom: 30px;
         color-scheme: dark;      /* sollte den weissen Player abdunkeln, je nach Browser */
+        /* KORRIGIERT: "align-items: center" gestrichen, wirkt bei einem Audio-Element nicht */
     }
 
     /* NEU: Text mit den Bildern, die du im Editor einfügst */
     .project-text {
         display: flow-root;      /* hält Bilder mit Textumfluss im Block */
         width: min(100%, var(--text-width));
-        margin-bottom: 40px;
-        font-size: 1.125rem;
+        margin-bottom: 40px;     /* KORRIGIERT: "align-items: left" gestrichen, der Text ist von selbst linksbündig */
+        font-size: 1.5rem;
         line-height: 1.7;
 
         p { margin-bottom: 1.25em; }
@@ -236,31 +242,252 @@ footer p {
         ul { list-style: disc; }
         ol { list-style: decimal; }
 
-        blockquote {
-            margin: 2rem 0;
-            padding-left: 1.25rem;
-            border-left: 2px solid var(--accent);
-            font: var(--h5);
-            line-height: 1.5;
-        }
-
         /* Bilder im Text */
         img { display: block; max-width: 100%; height: auto; margin: 2rem auto; border-radius: 12px; }
         .alignleft  { float: left;  margin: 0.25rem 1.5rem 1rem 0; max-width: 50%; }
         .alignright { float: right; margin: 0.25rem 0 1rem 1.5rem; max-width: 50%; }
         .aligncenter { margin-inline: auto; }
+    }
 
-        /* Bildunterschriften */
-        .wp-caption { width: auto !important; max-width: 100%; }   /* WordPress schreibt eine feste Breite ins HTML */
-        .wp-caption img { margin: 0 auto 0.5rem; }
-        .wp-caption-text, figcaption {
-            font-size: 0.875rem;
-            color: var(--secondary);
-            text-align: center;
+    /* NEU (Abstand): der letzte Absatz im Text braucht keinen eigenen Abstand nach unten */
+    .project-text > :last-child { margin-bottom: 0; }
+
+    /* VERSCHOBEN: Bild-Baustein, liegt im HTML neben .project-text, nicht darin */
+    .project-figure { margin: 2.5rem 0; }
+    .project-figure--normal { width: min(100%, var(--text-width)); }
+    .project-figure--wide   { width: min(100%, var(--media-width)); }
+
+    /* NEU (Abstand): zwischen Text und Bild reicht ein Abstand, nämlich der unter dem Text */
+    .project-text + .project-figure { margin-top: 0; }
+
+    .project-figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+    }
+
+    .project-figure figcaption {
+        margin-top: 0.75rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        color: var(--secondary);
+    }
+
+    .project-figure .credit { display: block; font-size: 0.8125rem; }
+
+    /* Galerie: Spalten, jedes Foto behält sein Format */
+    .project-gallery {
+        width: min(100%, var(--media-width));
+        column-count: 3;
+        column-gap: 1rem;
+        margin-bottom: 40px;
+    }
+
+    .gallery-item {
+        display: block;
+        width: 100%;
+        margin: 0 0 1rem;
+        padding: 0;
+        border: 0;
+        background: none;
+        cursor: zoom-in;
+        break-inside: avoid;   /* ein Foto wird nie zwischen zwei Spalten geteilt */
+    }
+
+    .gallery-item img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        transition: opacity 0.2s ease;
+    }
+
+    @media (hover: hover) {
+        .gallery-item:hover img { opacity: 0.85; }
+    }
+
+    .gallery-item:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 12px;
+    }
+
+    /* Grossansicht */
+    .lightbox {
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        max-height: none;
+        padding: 0;
+        border: 0;
+        background: rgba(10, 10, 11, 0.96);
+        color: var(--primary);
+    }
+
+    .lightbox[open] {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .lightbox::backdrop { background: rgba(10, 10, 11, 0.96); }
+
+    .lightbox-img {
+        width: auto;
+        height: auto;
+        max-width: 90vw;
+        max-height: 85vh;
+        object-fit: contain;
+        border-radius: 8px;
+    }
+
+    .lightbox-close,
+    .lightbox-prev,
+    .lightbox-next {
+        position: absolute;
+        display: grid;
+        place-items: center;
+        width: 3rem;
+        height: 3rem;
+        padding: 0;
+        border: 1px solid var(--lines);
+        border-radius: 999px;
+        background: var(--cards);
+        color: var(--primary);
+        font-size: 1.75rem;
+        line-height: 1;
+        cursor: pointer;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .lightbox-close { top: 1.25rem; right: 1.25rem; }
+    .lightbox-prev  { left: 1.25rem; top: 50%; transform: translateY(-50%); }
+    .lightbox-next  { right: 1.25rem; top: 50%; transform: translateY(-50%); }
+
+    @media (hover: hover) {
+        .lightbox-close:hover,
+        .lightbox-prev:hover,
+        .lightbox-next:hover {
+            background: var(--accent);
+            color: var(--background);
         }
     }
 
+    .lightbox-count {
+        position: absolute;
+        bottom: 1.25rem;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.9375rem;
+        color: var(--secondary);
+    }
+
+    /* wenige Fotos: Spalten an die Anzahl anpassen */
+    .project-gallery:has(.gallery-item:only-child) { column-count: 1; max-width: 36rem; }          /* genau 1 Foto */
+    .project-gallery:has(.gallery-item:nth-child(2):last-child) { column-count: 2; }              /* genau 2 Fotos */
+    .project-gallery:has(.gallery-item:nth-child(4):last-child) { column-count: 2; }              /* genau 4 Fotos */
+
+    /* VERSCHOBEN: eingebetteter Post */
+    .project-embed {
+        display: flex;
+        justify-content: center;
+        width: min(100%, 36rem);
+        margin-bottom: 40px;
+    }
+
+    .project-embed iframe { max-width: 100%; }
+
+    /* Aufgaben: gleiche Spalte, Schrift und Grösse wie der Text */
+    .project-tasks {
+        width: min(100%, var(--text-width));
+        margin-bottom: 40px;
+        padding-top: 2rem;
+        border-top: 1px solid var(--lines);
+        font-size: 1.5rem;
+        line-height: 1.7;
+    }
+
+    .project-tasks h4 {
+        margin-bottom: 1rem;
+        font-size: 1.625rem;   /* wie die Zwischentitel im Text */
+        text-align: left;
+    }
+
+    .project-tasks ul { list-style: none; padding: 0; }
+
+    .project-tasks li {
+        position: relative;
+        padding-left: 1.75rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* kleiner Strich in der Akzentfarbe statt Punkt */
+    .project-tasks li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.85em;
+        width: 0.75rem;
+        height: 1px;
+        background: var(--accent);
+    }
+
+    /* Social-Media-Karte */
+    .project-sm-card {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        width: min(100%, 36rem);
+        margin-bottom: 40px;
+        padding: 1rem 1.5rem 1rem 1rem;
+        border: 1px solid var(--lines);
+        border-radius: 16px;
+        background: var(--cards);
+        color: var(--primary);
+        text-decoration: none;
+        transition: border-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .sm-card-icon {
+        display: grid;
+        place-items: center;
+        width: 4rem;
+        height: 4rem;
+        flex: none;
+        border: 1px solid var(--lines);
+        border-radius: 12px;
+        color: var(--accent);
+        transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    }
+
+    .sm-card-text {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        min-width: 0;
+    }
+
+    .sm-card-label { font-size: 0.875rem; color: var(--secondary); }
+    .sm-card-title { font: 600 1.375rem/1.2 'Lora', serif; }
+
+    @media (hover: hover) {
+        .project-sm-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .project-sm-card:hover .sm-card-icon {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--background);
+        }
+    }
+
+    .project-sm-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 }
+
+
+
+
+
+
 
 /* Styling of all available module components. */
 [data-module] {
