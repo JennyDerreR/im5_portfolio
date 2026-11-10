@@ -29,9 +29,16 @@ Container::make('post_meta', 'Projekt')
 
         Field::make('complex', 'tasks', 'Meine Aufgaben')
             ->add_fields([Field::make('text', 'task', 'Aufgabe')]),
-        Field::make('text', 'medium', 'Medium'),
+        Field::make('text', 'medium', 'Medium')
+            ->set_help_text('Nur Journalismus, ausgeschrieben, z. B. Aargauer Zeitung. Wird unter dem Titelbild angezeigt.'),
+        Field::make('date', 'date', 'Datum')
+            ->set_help_text('Erscheinungsdatum des Artikels. Wird unter dem Medium angezeigt.'),
         Field::make('text', 'external_link', 'Link zum Original')
-            ->set_attribute('type', 'url'),
+            ->set_attribute('type', 'url')
+            ->set_help_text('Link zum Artikel. Mit PDF führt die Karte trotzdem auf diese Seite, ohne PDF direkt zur Zeitung.'),
+        Field::make('file', 'pdf', 'Artikel als PDF')
+            ->set_type(['application/pdf'])
+            ->set_help_text('Unverändert hochladen, so wie du es vom Medium bekommen hast.'),
         Field::make('media_gallery', 'gallery', 'Galerie'),
         Field::make('oembed', 'video', 'Video')
             ->set_help_text('Ersetzt das Bild, falls vorhanden.'),
@@ -39,7 +46,7 @@ Container::make('post_meta', 'Projekt')
             ->set_help_text('MP3-Datei hochladen'),
         Field::make('text', 'sm_post', 'Link zum Post')
             ->set_attribute('type', 'url')
-            ->set_help_text('Link zum Post (Instagram, TikTok, ...). Wird eingebettet, wenn die Plattform es erlaubt, sonst nur als Link angezeigt.'),
+            ->set_help_text('Nur bei Social Media Projekten, Link zum Post auf der Plattform'),
 
         // Felder hier einfügen
     ]);

@@ -10,11 +10,33 @@ function get_project_by_id(int $id): array
     $tasks         = array_column(carbon_get_post_meta($id, 'tasks') ?: [], 'task');
     $medium        = carbon_get_post_meta($id, 'medium');
     $external_link = carbon_get_post_meta($id, 'external_link');
-    $gallery       = array_map(fn($gallery_id) => get_media_by_id((int) $gallery_id), carbon_get_post_meta($id, 'gallery') ?: []);
     $video         = carbon_get_post_meta($id, 'video');
     $audio_id      = carbon_get_post_meta($id, 'audio');
     $audio         = $audio_id ? wp_get_attachment_url($audio_id) : null;
     $sm_post       = carbon_get_post_meta($id, 'sm_post');
+
+    //Datum (z. B. 12. März 2025)
+    $date_raw = carbon_get_post_meta($id, 'date');
+    $date     = $date_raw ? date_i18n('j. F Y', strtotime($date_raw)) : null;
+
+    //Galerie: pro Foto merken, ob es hochformatig ist
+    $gallery = array_map(function ($gallery_id) {
+        $photo = get_media_by_id((int) $gallery_id) ?: [];
+        $size  = wp_get_attachment_image_src((int) $gallery_id, 'full');   // [URL, Breite, Höhe]
+        $photo['portrait'] = ($size && $size[2] > $size[1]);
+        return $photo;
+    }, carbon_get_post_meta($id, 'gallery') ?: []);
+
+    //PDF
+    $pdf_id = carbon_get_post_meta($id, 'pdf');
+    $pdf    = null;
+    if ($pdf_id) {
+        $pdf_path = get_attached_file($pdf_id);
+        $pdf = [
+            'url'  => wp_get_attachment_url($pdf_id),
+            'size' => ($pdf_path && file_exists($pdf_path)) ? size_format(filesize($pdf_path)) : null,
+        ];
+    }
 
     //Inhalt (Bausteine)
     $content = array_map(function ($block) {
@@ -39,12 +61,15 @@ function get_project_by_id(int $id): array
         'content'            => $content,
         'tasks'              => $tasks,
         'medium'             => $medium,
+        'date'               => $date,
         'gallery'            => $gallery,
         'video'              => $video,
         'audio'              => $audio,
         'sm_post'            => $sm_post,
+        'pdf'                => $pdf,
         'project_categories' => $project_categories,
-        'link'               => $external_link ?: get_permalink($id),
-        'is_external'        => !empty($external_link),
+        'external_link'      => $external_link,
+        'link'               => ($external_link && !$pdf) ? $external_link : get_permalink($id),
+        'is_external'        => ($external_link && !$pdf),
     ];
 }
