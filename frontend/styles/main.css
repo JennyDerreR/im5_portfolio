@@ -22,8 +22,25 @@
     --h5: 1.5rem/1 'Lora', serif;       /* 20px */
     --h6: 100 1.25rem/1 'Lora', serif;      /* 18px */
 
-    /* GEÄNDERT: Fliesstext, gilt für alle Absätze */
+    /* Fliesstext, gilt für alle Absätze */
     --text: 400 1.5rem/1.7 'Inter', sans-serif;
+
+    /* Abstände Startseite */
+    --space-title: 2.25rem;                    /* Titel -> Inhalt, wie über den Karten */
+    --space-module: clamp(3rem, 6vw, 5rem);    /* oben und unten in jedem Modul */
+}
+
+/* Links sehen nur dann wie Links aus, wenn eine Regel es ausdrücklich will */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Sanftes Scrollen zu Ankern, z. B. Kontakt -> Let's Connect */
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
 }
 
 /* Body */
@@ -48,14 +65,14 @@ h4 { font: var(--h4);}
 h5 { font: var(--h5);}
 h6 { font: var(--h6);}
 
-/* GEÄNDERT: alle Absätze wie der Fliesstext, Sonderfälle überschreiben es mit ihrer eigenen Klasse */
+/* alle Absätze wie der Fliesstext, Sonderfälle überschreiben es mit ihrer eigenen Klasse */
 p { font: var(--text); }
 
 /*---------------------------------------HEADER---------------------------------------*/
 
 /* Styling of all available layout components. */
 [data-layout="header"] {
-    padding: 8px 10px 8px 10px;
+    padding: 0.875rem 0.625rem;                  /* vorher 8px 10px */
     background-color: #0A0A0BF0;
     position: sticky;
     border-bottom: 1px solid var(--secondary);
@@ -74,11 +91,12 @@ p { font: var(--text); }
             justify-content: flex-end;
             align-self: center;
             align-items: center;
-            gap: 40px;
+            gap: clamp(1rem, 0.25rem + 3vw, 3rem);       /* vorher 40px */
             margin-right: 25px;
 
             a  {
                 font: var(--h5);
+                font-size: clamp(1.125rem, 0.8rem + 1vw, 1.75rem);   /* vorher 1.5rem */
                 color: var(--secondary);
                 text-decoration: none;
             }
@@ -93,7 +111,7 @@ p { font: var(--text); }
                 color: var(--accent);
                 border: 1px solid var(--accent);
                 border-radius: 999px;
-                padding: 8px 20px;
+                padding: 0.625rem 1.5rem;                            /* vorher 8px 20px */
                 transition: background-color 0.2s ease, color 0.2s ease;
             }
 
@@ -110,7 +128,7 @@ p { font: var(--text); }
 }
 
 .logo {
-    height: clamp(3.25rem, 2rem + 2.25vw, 4.75rem);   /* 52px bis 76px */
+    height: clamp(3.25rem, 2.25rem + 2.9vw, 5.5rem);   /* 52px bis 88px, vorher bis 76px */
     width: auto;
     margin-left: 1.125rem;                             /* vorher 18px */
 }
@@ -120,11 +138,12 @@ p { font: var(--text); }
 footer p {
     color: var(--secondary);
     font: var(--h6);
+    font-size: clamp(1.125rem, 0.9rem + 0.6vw, 1.5rem);   /* vorher 1.25rem */
     margin-left: 30px;
 }
 
 [data-layout="footer"] {
-    padding: 20px 10px 20px 10px;
+    padding: 2rem 0.625rem;                      /* vorher 20px 10px */
     background-color: var(--background);
     border-top: 1px solid var(--secondary);
     display: flex;
@@ -140,11 +159,12 @@ footer p {
             justify-content: flex-end;
             align-self: center;
             align-items: center;
-            gap: 40px;
+            gap: clamp(1rem, 0.25rem + 3vw, 3rem);       /* vorher 40px */
             margin-right: 30px;
 
             a  {
                 font: var(--h6);
+                font-size: clamp(1.125rem, 0.9rem + 0.6vw, 1.5rem);   /* vorher 1.25rem */
                 color: var(--secondary);
                 text-decoration: none;
             }
@@ -168,8 +188,8 @@ footer p {
 
 [data-page="project"] {
     --media-width: 72rem;                /* Video, Titelbild, Audio, Galerie, Karte */
-    --text-width: var(--media-width);  /* Text, Aufgaben, Bilder: so breit wie das Titelbild */
-    --lead-width: 72rem;
+    --text-width: var(--media-width);    /* Text, Aufgaben, Bilder: so breit wie das Titelbild */
+    --lead-width: 72rem;                 /* Lead: so breit wie das Titelbild */
 
     display: flex;
     flex-direction: column;
@@ -178,10 +198,9 @@ footer p {
     margin: 40px 0;
     padding-inline: clamp(1rem, 4vw, 3rem);
 
-    /* GEÄNDERT: Kopf mittig (Variante D), Spitzmarke, Titel und Lead über dem Titelbild */
     .category {
-        font: 500 1.5rem/1 'Lora', serif;   /* vorher 1.25rem */
-        color: var(--accent);               /* grün */
+        font: 500 1.5rem/1 'Lora', serif;
+        color: var(--accent);
         text-align: center;
     }
 
@@ -195,7 +214,7 @@ footer p {
     .lead {
         width: min(100%, var(--lead-width));
         margin-bottom: 40px;
-        font-size: clamp(1.5rem, 1.1rem + 1vw, 1.875rem);    /* vorher 2.25rem, jetzt höchstens 1.875rem */
+        font-size: clamp(1.5rem, 1.1rem + 1vw, 1.875rem);
         text-align: center;
     }
 
@@ -237,7 +256,7 @@ footer p {
 
     .project-medium {
         font: 600 1.625rem/1.2 'Lora', serif;
-        color: var(--primary);               /* Medium in Grün */
+        color: var(--accent);               /* Medium in Grün */
     }
 
     .project-date {
@@ -715,7 +734,247 @@ footer p {
     }
 }
 
-/* Styling of all available teaser components. */
+/*---------------------------------------STARTSEITE---------------------------------------*/
+
+[data-page="page"] { --page-width: 80rem; }
+
+[data-module="statement"],
+[data-module="overview_projects"],
+[data-module="contact"] {
+    padding-inline: max(clamp(1rem, 4vw, 3rem), calc((100% - var(--page-width)) / 2));
+}
+
+.module-title {
+    font: 600 clamp(2rem, 1.3rem + 2vw, 3rem)/1.2 'Lora', serif;
+}
+
+/* Hero: Foto über zwei Drittel, rechts ein Balken von der Seite */
+[data-module="hero_front"] {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    min-height: clamp(26rem, 44vw, 46rem);
+
+    .hero-media {
+        position: relative;
+        background: #4a4a4a;
+    }
+
+    .hero-media img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .hero-text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding: 3rem clamp(1.5rem, 3vw, 3.5rem);
+        text-align: center;
+        background: var(--background);
+    }
+
+    .hero-tags {
+        font: 500 0.8125rem/1.5 'Inter', sans-serif;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+    }
+
+    .title {
+        font-size: clamp(2.25rem, 1.2rem + 3vw, 3.75rem);
+        line-height: 1.1;
+        text-wrap: balance;
+    }
+
+    .hero-role {
+        font: 400 clamp(1.125rem, 1rem + 0.7vw, 1.5rem)/1.4 'Inter', sans-serif;
+        color: var(--secondary);
+    }
+}
+
+/* Statement */
+[data-module="statement"] {
+    padding-block: 0 var(--space-module);     /* oben kein Abstand, sonst doppelt zu den Projekten */
+
+    .statement-headline {
+        max-width: 62rem;
+        font: 500 clamp(2.25rem, 1.2rem + 3.6vw, 4.5rem)/1.12 'Lora', serif;
+        text-wrap: balance;
+    }
+
+    .accent { color: var(--accent); }
+
+    .statement-subline {
+        max-width: 34rem;
+        margin: var(--space-title) 0 0 50%;
+        font: 400 clamp(1.25rem, 1rem + 0.8vw, 1.75rem)/1.4 'Lora', serif;
+        color: var(--secondary);
+        text-wrap: pretty;
+    }
+}
+
+/* Ausgewählte Arbeiten */
+[data-module="overview_projects"] {
+    padding-block: var(--space-module);
+
+    .module-title { margin-bottom: var(--space-title); }
+
+    .squiggle {
+        display: block;
+        width: 7.5rem;
+        height: 0.75rem;
+        margin-top: 0.375rem;
+        fill: none;
+        stroke: var(--accent);
+        stroke-width: 2;
+        stroke-linecap: round;
+        overflow: visible;
+    }
+
+    .squiggle path {
+        stroke-dasharray: 200;
+        stroke-dashoffset: 200;
+        animation: draw 1.4s ease 0.2s forwards;
+    }
+
+    .projects {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* Kontakt */
+[data-module="contact"] {
+    scroll-margin-top: 6rem;
+    padding-block: var(--space-module);
+    border-top: 1px solid var(--lines);
+    text-align: center;
+
+    .module-title {
+        margin-bottom: var(--space-title);
+    }
+
+    .pill {
+        display: inline-block;
+        padding: 1.125rem 2.75rem;
+        border: 1px solid var(--accent);
+        border-radius: 999px;
+        font: 400 clamp(1.125rem, 1rem + 0.5vw, 1.5rem)/1 'Inter', sans-serif;
+        color: var(--accent);
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .socials {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        margin-top: var(--space-title);
+        font-size: clamp(1.125rem, 1rem + 0.4vw, 1.375rem);
+        color: var(--secondary);
+    }
+
+    .socials a { transition: color 0.2s ease; }
+
+    @media (hover: hover) {
+        .pill:hover { background: var(--accent); color: var(--background); }
+        .socials a:hover { color: var(--accent); }
+    }
+}
+
+/* Karte: Hochformat, oben das Bild im Querformat, unten Tag, Titel und Lead */
+.teaser-project {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 4 / 5;
+    border: 1px solid var(--lines);
+    border-radius: 20px;
+    background: var(--cards);
+    transition: border-color 0.25s ease, transform 0.3s ease;
+}
+
+.teaser-media {
+    position: relative;
+    flex: none;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 19px 19px 0 0;
+    background: var(--background);
+}
+
+.teaser-media img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    filter: grayscale(1);
+    transition: filter 0.5s ease, transform 0.6s ease;
+}
+
+.teaser-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.625rem;
+    padding: 1.25rem 1.375rem 1.5rem;
+}
+
+.teaser-tag {
+    font: 500 0.75rem/1.4 'Inter', sans-serif;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.teaser-title { font: 600 1.375rem/1.25 'Lora', serif; }
+
+.teaser-lead {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font: 400 0.9375rem/1.55 'Inter', sans-serif;
+    color: var(--secondary);
+}
+
+.teaser-more {
+    margin-top: auto;
+    font: 400 0.9375rem/1 'Inter', sans-serif;
+    color: var(--accent);
+}
+
+.teaser-project:hover,
+.teaser-project:focus-visible {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+}
+
+.teaser-project:hover .teaser-media img,
+.teaser-project:focus-visible .teaser-media img {
+    filter: grayscale(0);
+    transform: scale(1.06);
+}
+
+.teaser-project:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Handy: kein Hover, die Bilder sind immer in Farbe */
+@media (hover: none) {
+    .teaser-media img { filter: none; }
+}
 
 /* Styling of utility classes, can be added anywhere in the project. */
 
@@ -741,14 +1000,21 @@ footer p {
 /* BREAKPOINT: lg */
 @media (max-width: 1024px) {
     [data-page="project"] .project-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    [data-module="overview_projects"] .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    [data-module="hero_front"] { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
 }
 
 /* BREAKPOINT: md */
-@media (max-width: 768px) {}
+@media (max-width: 768px) {
+    [data-module="hero_front"] { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+    [data-module="hero_front"] .hero-media { min-height: 20rem; }
+    [data-module="statement"] .statement-subline { margin-left: 0; }
+}
 
 /* BREAKPOINT: sm */
 @media (max-width: 640px) {
     [data-page="project"] .project-gallery { grid-template-columns: minmax(0, 1fr); }
+    [data-module="overview_projects"] .projects { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* BREAKPOINT: xs */

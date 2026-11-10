@@ -1,12 +1,20 @@
 <?php
 $data = $args['data'];
-js_log($data);
 ?>
 
-
 <section data-module="hero_front">
-    <p class="heading"><?= $data['heading'] ?></p>
-    <h1 class="title"><?= $data['title'] ?></h1>
-    <p class="subline"><?= $data['subline'] ?></p>
-    <img src="<?= $data['image']['src'] ?>" alt="<?= $data['image']['alt'] ?>">
+    <div class="hero-media">
+        <?php if (!empty($data['image'])): ?>
+            <img src="<?= $data['image']['src'] ?>" alt="<?= $data['image']['alt'] ?>">
+        <?php endif; ?>
+    </div>
+
+    <div class="hero-text">
+        <p class="hero-tags"><?= $data['heading'] ?></p>
+        <h1 class="title"><?= $data['title'] ?></h1>
+
+        <?php if (!empty($data['subline'])): ?>
+            <p class="hero-role"><?= $data['subline'] ?></p>
+        <?php endif; ?>
+    </div>
 </section>
