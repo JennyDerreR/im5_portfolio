@@ -2,36 +2,33 @@
 $id = $args['id'];
 $project = get_project_by_id($id);
 
-// Tag: Kategorie, bei Artikeln zusätzlich das Medium
-$tag = $project['project_categories'][0]['title'] ?? '';
-if ($tag && $project['medium']) {
+// Tag: alle Kategorien mit Komma getrennt, bei Artikeln zusätzlich das Medium
+$categories = array_filter(array_column($project['project_categories'] ?? [], 'title'));
+$tag = implode(', ', $categories);
+if ($tag && !empty($project['medium'])) {
     $tag .= ' · ' . $project['medium'];
 }
 ?>
 
-<a class="teaser-project"
-   href="<?= $project['link'] ?>"
-   <?php if ($project['is_external']): ?>target="_blank" rel="noopener" aria-label="<?= esc_attr($project['title']) ?> (öffnet in neuem Tab)"<?php endif; ?>>
+<a class="teaser-project" href="<?= esc_url(get_permalink($id)) ?>">
 
     <div class="teaser-media">
         <?php if ($project['image']): ?>
-            <img src="<?= $project['image']['src'] ?>" alt="<?= $project['image']['alt'] ?>" loading="lazy" decoding="async">
+            <img src="<?= $project['image']['src'] ?>" alt="<?= esc_attr($project['image']['alt']) ?>" loading="lazy" decoding="async">
         <?php endif; ?>
     </div>
 
     <div class="teaser-body">
         <?php if ($tag): ?>
-            <span class="teaser-tag"><?= $tag ?></span>
+            <span class="teaser-tag"><?= esc_html($tag) ?></span>
         <?php endif; ?>
 
-        <h3 class="teaser-title"><?= $project['title'] ?></h3>
+        <h3 class="teaser-title"><?= esc_html($project['title']) ?></h3>
 
         <?php if (!empty($project['lead'])): ?>
-            <p class="teaser-lead"><?= $project['lead'] ?></p>
+            <p class="teaser-lead"><?= esc_html($project['lead']) ?></p>
         <?php endif; ?>
 
-        <span class="teaser-more">
-            <?= $project['is_external'] ? 'Artikel lesen ↗' : 'Projekt ansehen →' ?>
-        </span>
+        <span class="teaser-more">Projekt ansehen →</span>
     </div>
 </a>
